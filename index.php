@@ -1,4 +1,11 @@
-<?php
+<?phprequire_once("geoip2.phar");
+use GeoIp2\Database\Reader;
+// City DB
+$reader = new Reader('GeoLite2-City.mmdb');
+$record = $reader->city($_SERVER['REMOTE_ADDR']);
+
+
+
 $userIP = getRealIP();
 $locationIP = getLocationData($userIP);
 echo $userIP.'<br/>';
@@ -42,26 +49,16 @@ function getRealIP() {
 
 
 function getLocationData($userIP) {
-    // IP address 
-    #$userIP = '162.222.198.75'; 
-    
-    // API end URL 
-    $apiURL = 'https://freegeoip.app/json/'.$userIP; 
-    
-    // Create a new cURL resource with URL 
-    $ch = curl_init($apiURL); 
-    
-    // Return response instead of outputting 
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
-    
-    // Execute API request 
-    $apiResponse = curl_exec($ch); 
-    
-    // Close cURL resource 
-    curl_close($ch); 
-    
-    // Retrieve IP data from API response 
-    $locationIP = json_decode($apiResponse, true); 
+    $record = $reader->city($userIP);
+    print($record->country->isoCode . "\n");
+    print($record->country->name . "\n");
+    print($record->country->names['zh-CN'] . "\n");
+    print($record->mostSpecificSubdivision->name . "\n");
+    print($record->mostSpecificSubdivision->isoCode . "\n");
+    print($record->city->name . "\n");
+    print($record->postal->code . "\n");
+    print($record->location->latitude . "\n");
+    print($record->location->longitude . "\n");
     
     if(!empty($locationIP)){ 
         return $locationIP;
