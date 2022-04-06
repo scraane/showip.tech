@@ -1,7 +1,7 @@
 <?php
 $userIP = getRealIP();
 $locationIP = getLocationData($userIP);
-
+echo $userIP;
 
 function getRealIP()
     {
