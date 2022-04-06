@@ -44,7 +44,7 @@ function getLocationData($userIP) {
     // Retrieve IP data from API response 
     $locationIP = json_decode($apiResponse, true); 
     
-    if(!empty($ipData)){ 
+    if(!empty($locationIP)){ 
         $country_code = $locationIP['country_code']; 
         $country_name = $locationIP['country_name']; 
         $region_code = $locationIP['region_code']; 
