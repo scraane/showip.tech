@@ -2,33 +2,26 @@
 require 'vendor/autoload.php';
 use GeoIp2\Database\Reader;
 
-
-
-
-
 $userIP = getRealIP();
 echo $userIP;
-$locationIP = getLocationData($userIP);
-echo $userIP.'<br/>';
-$country_code = $locationIP['country_code']; 
-$country_name = $locationIP['country_name']; 
-$region_code = $locationIP['region_code']; 
-$region_name = $locationIP['region_name']; 
-$city = $locationIP['city']; 
-$zip_code = $locationIP['postal_code']; 
-$latitude = $locationIP['latitude']; 
-$longitude = $locationIP['longitude']; 
-$time_zone = $locationIP['time_zone']; 
 
-echo 'Country Name: '.$country_name.'<br/>'; 
-echo 'Country Code: '.$country_code.'<br/>'; 
-echo 'Region Code: '.$region_code.'<br/>'; 
-echo 'Region Name: '.$region_name.'<br/>'; 
-echo 'City: '.$city.'<br/>'; 
-echo 'Zipcode: '.$zip_code.'<br/>'; 
-echo 'Latitude: '.$latitude.'<br/>'; 
-echo 'Longitude: '.$longitude.'<br/>'; 
-echo 'Time Zone: '.$time_zone;
+$record = $reader->city($userIP);
+
+print($record->country->isoCode . "\n"); // 'US'
+print($record->country->name . "\n"); // 'United States'
+
+print($record->mostSpecificSubdivision->name . "\n"); // 'Minnesota'
+print($record->mostSpecificSubdivision->isoCode . "\n"); // 'MN'
+
+print($record->city->name . "\n"); // 'Minneapolis'
+
+print($record->postal->code . "\n"); // '55455'
+
+print($record->location->latitude . "\n"); // 44.9733
+print($record->location->longitude . "\n"); // -93.2323
+
+print($record->traits->network . "\n"); // '128.101.101.101/32'
+print($record->time->zone; . "\n");
 
 function getRealIP() {  
     if (!empty($_SERVER['HTTP_CLIENT_IP']))   
@@ -49,24 +42,5 @@ function getRealIP() {
 }  
 
 
-function getLocationData($userIP) {
-    $reader = new Reader('GeoLite2-City.mmdb');
-    $record = $reader->city($userIP);
-    $locationIP['country_code'] = $record->country->isoCode;
-    $locationIP['country_name'] = $record->country->name;
-    $locationIP['region_name'] = $record->mostSpecificSubdivision->name;
-    $locationIP['region_code'] = $record->mostSpecificSubdivision->isoCode;
-    $locationIP['city'] = $record->city->name;
-    $locationIP['postal_code'] = $record->postal->code;
-    $locationIP['latitude'] = $record->location->latitude;
-    $locationIP['longitude'] = $record->location->longitude;
-    $locationIP['time_zone'] = $record->time->zone;
-    echo $record->time->zone;
-    if(!empty($locationIP)){ 
-        return $locationIP;
-    }else{ 
-        return ('IP data is not found!'); 
-    }
-}
- 
+
 ?>
