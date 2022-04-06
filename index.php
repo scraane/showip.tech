@@ -1,7 +1,7 @@
 <?php
 require_once("geoip2.phar");
 use GeoIp2\Database\Reader;
-$reader = new Reader('GeoLite2-City.mmdb');
+
 
 
 
@@ -49,7 +49,7 @@ function getRealIP() {
 
 
 function getLocationData($userIP) {
-
+    $reader = new Reader('GeoLite2-City.mmdb');
     $record = $reader->city($userIP);
     $locationIP['country_code'] = $record->country->isoCode;
     $locationIP['country_name'] = $record->country->name;
