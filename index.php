@@ -61,7 +61,7 @@ function getLocationData($userIP) {
     $locationIP['latitude'] = $record->location->latitude;
     $locationIP['longitude'] = $record->location->longitude;
     $locationIP['time_zone'] = $record->time->zone;
-    echo $locationIP['time_zone'];
+    echo $record->time->zone;
     if(!empty($locationIP)){ 
         return $locationIP;
     }else{ 
