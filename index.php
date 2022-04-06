@@ -3,28 +3,22 @@ $userIP = getRealIP();
 $locationIP = getLocationData($userIP);
 echo $userIP;
 
-function getRealIP()
-    {
-        if (isset($_SERVER["HTTP_CLIENT_IP"])) {
-            $userIP = $_SERVER["HTTP_CLIENT_IP"];
-        } elseif (isset($_SERVER["HTTP_X_FORWARDED_FOR"])) {
-            $userIP = $_SERVER["HTTP_X_FORWARDED_FOR"];
-        } elseif (isset($_SERVER["HTTP_X_FORWARDED"])) {
-            $userIP = $_SERVER["HTTP_X_FORWARDED"];
-        } elseif (isset($_SERVER["HTTP_FORWARDED_FOR"])) {
-            $userIP = $_SERVER["HTTP_FORWARDED_FOR"];
-        } elseif (isset($_SERVER["HTTP_FORWARDED"])) {
-            $userIP = $_SERVER["HTTP_FORWARDED"];
-        } else {
-            $userIP = $_SERVER["REMOTE_ADDR"];
-        }
+function getRealIP() {  
+    //whether ip is from the share internet  
+     if(!emptyempty($_SERVER['HTTP_CLIENT_IP'])) {  
+                $userIP = $_SERVER['HTTP_CLIENT_IP'];  
+        }  
+    //whether ip is from the proxy  
+    elseif (!emptyempty($_SERVER['HTTP_X_FORWARDED_FOR'])) {  
+                $userIP = $_SERVER['HTTP_X_FORWARDED_FOR'];  
+     }  
+    //whether ip is from the remote address  
+    else{  
+             $userIP = $_SERVER['REMOTE_ADDR'];  
+     }  
+     return $userIP;  
+}  
 
-        // Strip any secondary IP etc from the IP address
-        if (strpos($userIP, ',') > 0) {
-            $userIP = substr($userIP, 0, strpos($userIP, ','));
-        }
-        return $userIP;
-    }
 
 function getLocationData($userIP) {
     // IP address 
