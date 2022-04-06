@@ -7,6 +7,7 @@ use GeoIp2\Database\Reader;
 
 
 $userIP = getRealIP();
+echo $userIP;
 $locationIP = getLocationData($userIP);
 echo $userIP.'<br/>';
 $country_code = $locationIP['country_code']; 
