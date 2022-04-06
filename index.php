@@ -1,5 +1,5 @@
 <?php
-require_once("geoip2.phar");
+require 'vendor/autoload.php';
 use GeoIp2\Database\Reader;
 
 
