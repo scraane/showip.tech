@@ -1,7 +1,26 @@
 <?php
 $userIP = getRealIP();
 $locationIP = getLocationData($userIP);
-echo $userIP;
+echo $userIP.'<br/>';
+$country_code = $locationIP['country_code']; 
+$country_name = $locationIP['country_name']; 
+$region_code = $locationIP['region_code']; 
+$region_name = $locationIP['region_name']; 
+$city = $locationIP['city']; 
+$zip_code = $locationIP['zip_code']; 
+$latitude = $locationIP['latitude']; 
+$longitude = $locationIP['longitude']; 
+$time_zone = $locationIP['time_zone']; 
+
+echo 'Country Name: '.$country_name.'<br/>'; 
+echo 'Country Code: '.$country_code.'<br/>'; 
+echo 'Region Code: '.$region_code.'<br/>'; 
+echo 'Region Name: '.$region_name.'<br/>'; 
+echo 'City: '.$city.'<br/>'; 
+echo 'Zipcode: '.$zip_code.'<br/>'; 
+echo 'Latitude: '.$latitude.'<br/>'; 
+echo 'Longitude: '.$longitude.'<br/>'; 
+echo 'Time Zone: '.$time_zone;
 
 function getRealIP() {  
     if (!empty($_SERVER['HTTP_CLIENT_IP']))   
@@ -45,25 +64,6 @@ function getLocationData($userIP) {
     $locationIP = json_decode($apiResponse, true); 
     
     if(!empty($locationIP)){ 
-        $country_code = $locationIP['country_code']; 
-        $country_name = $locationIP['country_name']; 
-        $region_code = $locationIP['region_code']; 
-        $region_name = $locationIP['region_name']; 
-        $city = $locationIP['city']; 
-        $zip_code = $locationIP['zip_code']; 
-        $latitude = $locationIP['latitude']; 
-        $longitude = $locationIP['longitude']; 
-        $time_zone = $locationIP['time_zone']; 
-        
-        echo 'Country Name: '.$country_name.'<br/>'; 
-        echo 'Country Code: '.$country_code.'<br/>'; 
-        echo 'Region Code: '.$region_code.'<br/>'; 
-        echo 'Region Name: '.$region_name.'<br/>'; 
-        echo 'City: '.$city.'<br/>'; 
-        echo 'Zipcode: '.$zip_code.'<br/>'; 
-        echo 'Latitude: '.$latitude.'<br/>'; 
-        echo 'Longitude: '.$longitude.'<br/>'; 
-        echo 'Time Zone: '.$time_zone;
         return $locationIP;
     }else{ 
         return ('IP data is not found!'); 
