@@ -21,7 +21,7 @@ print($record->location->latitude . "\n"); // 44.9733
 print($record->location->longitude . "\n"); // -93.2323
 
 print($record->traits->network . "\n"); // '128.101.101.101/32'
-print($record->time->zone; . "\n");
+print($record->time->zone . "\n");
 
 function getRealIP() {  
     if (!empty($_SERVER['HTTP_CLIENT_IP']))   
