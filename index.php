@@ -5,6 +5,8 @@
 $userIP = getRealIP();
 echo $userIP;
 
+        $visitor_details = visitor_country($userIP); // Output Country name [Ex: United States]
+        $country = $visitor_details['countryName'];
 
 function getRealIP() {  
     if (!empty($_SERVER['HTTP_CLIENT_IP']))   
