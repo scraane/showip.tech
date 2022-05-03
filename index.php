@@ -5,7 +5,7 @@
 $userIP = getRealIP();
 echo $userIP;
 
-        $visitor_details = visitor_country($userIP); // Output Country name [Ex: United States]
+        $visitor_details = visitor_country(); // Output Country name [Ex: United States]
         $country = $visitor_details['countryName'];
 
 function getRealIP() {  
@@ -30,7 +30,7 @@ function getRealIP() {
         {
             $client  = @$_SERVER['HTTP_CLIENT_IP'];
             $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
-            #$remote  = $_SERVER['REMOTE_ADDR'];
+            $remote  = getRealIP();
             $result  = "Unknown";
             if(filter_var($client, FILTER_VALIDATE_IP))
             {
