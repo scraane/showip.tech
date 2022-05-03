@@ -1,27 +1,10 @@
 <?php
-require 'vendor/autoload.php';
-use GeoIp2\Database\Reader;
+#require 'vendor/autoload.php';
+#use GeoIp2\Database\Reader;
 
 $userIP = getRealIP();
 echo $userIP;
 
-$record = $reader->city($userIP);
-
-print($record->country->isoCode . "\n"); // 'US'
-print($record->country->name . "\n"); // 'United States'
-
-print($record->mostSpecificSubdivision->name . "\n"); // 'Minnesota'
-print($record->mostSpecificSubdivision->isoCode . "\n"); // 'MN'
-
-print($record->city->name . "\n"); // 'Minneapolis'
-
-print($record->postal->code . "\n"); // '55455'
-
-print($record->location->latitude . "\n"); // 44.9733
-print($record->location->longitude . "\n"); // -93.2323
-
-print($record->traits->network . "\n"); // '128.101.101.101/32'
-print($record->time->zone . "\n");
 
 function getRealIP() {  
     if (!empty($_SERVER['HTTP_CLIENT_IP']))   
@@ -40,6 +23,38 @@ function getRealIP() {
     }
      return $userIP;  
 }  
+
+        function visitor_country($remote)
+        {
+            $client  = @$_SERVER['HTTP_CLIENT_IP'];
+            $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
+            #$remote  = $_SERVER['REMOTE_ADDR'];
+            $result  = "Unknown";
+            if(filter_var($client, FILTER_VALIDATE_IP))
+            {
+                $ip = $client;
+            }
+            elseif(filter_var($forward, FILTER_VALIDATE_IP))
+            {
+                $ip = $forward;
+            }
+            else
+            {
+                $ip = $remote;
+            }
+
+            $ip_data = @json_decode(file_get_contents("http://www.geoplugin.net/json.gp?ip=" . $ip));
+
+            if($ip_data && $ip_data->geoplugin_countryName != null)
+            {
+                $result = array('ip' => $ip,
+                                'continentCode' => $ip_data->geoplugin_continentCode,
+                                'countryCode' => $ip_data->geoplugin_countryCode,
+                                'countryName' => $ip_data->geoplugin_countryName,
+                                );
+            }
+            return $result;
+        }
 
 
 
